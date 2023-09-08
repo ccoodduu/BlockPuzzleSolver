@@ -49,12 +49,18 @@ namespace BlockPuzzleSolver
 			{
 				if ((piecesAdded & (1 << i)) != 0) continue;
 				var piece = Piece.pieces[i];
-
+				var fits = false;
 				foreach (var positionedPiece in piece.positionedPieces)
 				{
-					if (CanAddPiece(positionedPiece.bits)) filledBits |= positionedPiece.bits;
+					if (CanAddPiece(positionedPiece.bits))
+					{
+						filledBits |= positionedPiece.bits;
+						fits = true;
+					}
 					if (filledBits == ~0) return false;
 				}
+
+				if (!fits) return true;
 			}
 
 			return filledBits != ~0;
