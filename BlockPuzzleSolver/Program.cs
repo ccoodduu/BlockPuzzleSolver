@@ -17,6 +17,11 @@ namespace BlockPuzzleSolver
 			Console.WriteLine("Full path to output file (leave empty if no file is wanted): ");
 			var path = Console.ReadLine();
 
+			using (StreamWriter writer = new StreamWriter(path))
+			{
+				writer.Write("");
+			}
+
 			// Generate all orientations and positions of all pieces.
 			foreach (var piece in Piece.pieces)
 			{
