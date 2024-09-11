@@ -66,19 +66,6 @@ namespace BlockPuzzleSolver
 			return filledBits != ~0;
 		}
 
-		public long Hash()
-		{
-			long hash = 4721923745439584;
-
-			foreach (var piece in pieces)
-			{
-				hash ^= piece.bits * piece.bits * 1014335340734895793;
-				hash += piece.bits * 1145631435709204824;
-				hash ^= piece.bits * piece.bits * 6907834879879146858;
-			}
-			return hash;
-		}
-
 		public string Log()
 		{
 			var str = "";

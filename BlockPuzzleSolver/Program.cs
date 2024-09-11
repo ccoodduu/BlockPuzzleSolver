@@ -11,7 +11,6 @@ namespace BlockPuzzleSolver
 	public class Program
 	{
 		public static int count = 0;
-		public static List<long> hashes = new List<long>();
 		public static StringBuilder allSolutions = new StringBuilder();
 		static void Main(string[] args)
 		{
@@ -94,16 +93,10 @@ namespace BlockPuzzleSolver
 		{
 			if (board.piecesAdded == 0b1111111111)
 			{
-				var hash = board.Hash();
-
-				// if (Program.hashes.Contains(hash)) return;
-
 				Program.count++;
 				Console.WriteLine(count);
 
 				allSolutions.Append(Program.count + "\n" + board.Log() + "\n");
-
-				Program.hashes.Add(hash);
 
 				return;
 			}
@@ -117,9 +110,11 @@ namespace BlockPuzzleSolver
 
 				var bits = board.bits;
 				board.AddPiece(positionedPiece);
-				if (!board.ContainsUnreachableAreas()) Solve(board);
+
+				if (!board.ContainsUnreachableAreas()) 
+					Solve(board);
+
 				board.RemovePiece(positionedPiece);
-				if (bits != board.bits) Console.WriteLine("Board has changed!");
 			}
 
 		}
