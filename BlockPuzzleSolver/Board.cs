@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlockPuzzleSolver
 {
 	public class Board
 	{
-		public static Vector2Int boardSize = new Vector2Int(8);
-		public long bits;
-		public int piecesAdded;
-		public List<PositionedPiece> pieces;
+		public static Vector2Int boardSize = new Vector2Int(8, 8);
+		public long bits; // 64 bit number, where each bit is a square on the board, 1 is a piece, 0 is empty.
+		public int piecesAdded; // Each bit is a quick way of checking weather this piece-type is already added to the board.
+		public List<PositionedPiece> pieces; // This is only used for printing the board, so you know which piece is which.
 
 		public Board()
 		{
@@ -22,8 +20,10 @@ namespace BlockPuzzleSolver
 
 		public void AddPiece(PositionedPiece positionedPiece)
 		{
-			bits ^= positionedPiece.bits;
+			// using this bit manipulation we can quickly add a piece to the board
+			bits |= positionedPiece.bits;
 			piecesAdded += 1 << (int)positionedPiece.pieceType;
+
 			pieces.Add(positionedPiece);
 		}
 
@@ -34,12 +34,18 @@ namespace BlockPuzzleSolver
 
 		public void RemovePiece(PositionedPiece positionedPiece)
 		{
+			// using this bit manipulation we can quickly remove a piece from the board
 			bits &= ~positionedPiece.bits;
 			piecesAdded -= 1 << (int)positionedPiece.pieceType;
+
 			pieces.Remove(positionedPiece);
 		}
 
-		public bool CanAddPiece(long bits) => (bits & this.bits) == 0;
+		public bool CanAddPiece(long bits)
+		{
+			// using this bitwise and we can quickly check if the piece overlaps with something already on the board.
+			return (bits & this.bits) == 0;
+		}
 
 		public bool ContainsUnreachableAreas()
 		{
@@ -57,6 +63,7 @@ namespace BlockPuzzleSolver
 						filledBits |= positionedPiece.bits;
 						fits = true;
 					}
+
 					if (filledBits == ~0) return false;
 				}
 
