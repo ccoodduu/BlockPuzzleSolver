@@ -14,6 +14,8 @@ namespace BlockPuzzleSolver
 		public static StringBuilder allSolutions = new StringBuilder();
 		static void Main(string[] args)
 		{
+			Console.WriteLine("Full path to output file (leave empty if no file is wanted): ");
+			var path = Console.ReadLine();
 
 			foreach (var piece in Piece.pieces)
 			{
@@ -76,10 +78,14 @@ namespace BlockPuzzleSolver
 				positionedPiece.Log();
 			}
 
-				using (StreamWriter writer = new StreamWriter("C:\\Users\\willi\\Git Projects\\C#\\BlockPuzzleSolver\\BlockPuzzleSolver\\solutions.txt"))
+			// Save results
+			if (path != "")
+			{
+				using (StreamWriter writer = new StreamWriter(path))
 			{
 				writer.Write(allSolutions.ToString());
 			}
+			} 
 
 			Console.WriteLine("Press esc key to exit");
 			while (true)
